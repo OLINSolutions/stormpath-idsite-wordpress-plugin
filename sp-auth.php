@@ -5,10 +5,10 @@
  */
 /**
 Plugin Name: SP Auth
-Plugin URI: tbd
+Plugin URI: https://github.com/OLINSolutions/stormpath-idsite-wordpress-plugin
 Description: Stormpath authorization plugin
 Version: 0.1
-Author: Jordan Olin
+Author: Olinsolutions
 Author URI: http://olinsolutions.com
 License:     GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
