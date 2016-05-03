@@ -1,0 +1,47 @@
+{
+    "name": "stormpath/sdk",
+    "type": "library",
+    "description": "A PHP wrapper for Stormpath's API",
+    "keywords": [
+        "stormpath",
+        "cloud",
+        "security",
+        "api",
+        "user management",
+        "user security",
+        "group management",
+        "authentication"],
+    "homepage": "https://github.com/stormpath/stormpath-sdk-php",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Brian Retterer",
+            "email": "brian@stormpath.com",
+            "role": "Developer"
+        },
+        {
+            "name": "Elder Crisostomo",
+            "email": "elder@stormpath.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Stormpath\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Stormpath\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=5.4",
+        "guzzle/guzzle": "3.9.*",
+        "firebase/php-jwt": "2.2.*",
+        "phpseclib/phpseclib": "0.3.*|~1.0|~2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*"
+    }
+}
