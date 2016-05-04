@@ -7,7 +7,7 @@
 Plugin Name: SP Auth
 Plugin URI: https://github.com/OLINSolutions/stormpath-idsite-wordpress-plugin
 Description: Stormpath authorization plugin
-Version: 0.1
+Version: 0.2
 Author: Olinsolutions
 Author URI: http://olinsolutions.com
 License:     GPL2
