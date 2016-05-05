@@ -67,9 +67,12 @@ if(!class_exists('SP_Auth')) {
 			}
 
 			// Register the authenticate filter if Stormpath has been initialized
-			if ($this->spAuthenticator->stormpathInitialized())
-				add_filter( 'authenticate', array(&$this, 'authenticate'), 10, 3 );
-			else
+			if ($this->spAuthenticator->stormpathInitialized()) {
+				if (get_option('sp_authenticate_via_stormpath', 'false') === 'true')
+					add_filter( 'authenticate', array(&$this, 'authenticate'), 10, 3 );
+        		else
+					Util::debug('msg', 'SP_Auth::__construct', 'Authentication via Stormpath is not enabled.');
+			} else
 				Util::debug('msg', 'SP_Auth::__construct', 'Defering registration of authenticate filter until SP_Authenticator instance has been initialized');
 			
         	Util::debug('msg', 'SP_Auth::__construct', 'LEAVING');
@@ -84,10 +87,12 @@ if(!class_exists('SP_Auth')) {
 			register_setting('sp_auth-group', 'sp_apikey_file_location');
 			register_setting('sp_auth-group', 'sp_directory_href');
 			register_setting('sp_auth-group', 'sp_application_href');
+			register_setting('sp_auth-group', 'sp_authenticate_via_stormpath');
+			register_setting('sp_auth-group', 'sp_use_idsite_for_login');
 			register_setting('sp_auth-group', 'sp_idsite_login_uri');
+			register_setting('sp_auth-group', 'sp_use_idsite_for_logout');
 			register_setting('sp_auth-group', 'sp_idsite_logout_uri');
 			register_setting('sp_auth-group', 'sp_login_after_logout');
-			
 		} // END public function init_custom_settings()
 
 		/**

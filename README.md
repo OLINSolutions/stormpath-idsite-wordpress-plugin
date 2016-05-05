@@ -14,7 +14,11 @@ Stormpath IDM integration plugin.  Supports IDSite and authentication.
 ### Description
 Intended to integrate with the Stormpath IDM PaaS (www.stormpath.com) in order to allow replacement of the authentication mechanism used at WordPress login.  In addition, integration for IDSite is configured based on the settings.
 For now, only the Login and Logout flows are integrated.  Registration and Password Change/reset are coming.
-
+NOTE: Enabling debug mode in wp-config.php, e.g.
+	define( 'WP_DEBUG', true );
+	define( 'WP_DEBUG_DISPLAY', false );
+	define( 'WP_DEBUG_LOG', true );
+will in turn enable debug logging for sp-auth.  If enabled, see output in wp-content/debug.log
 
 ### Installation
 1. Unzip the plugin into a directory under Plugins (e.g. sp-auth).

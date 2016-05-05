@@ -39,10 +39,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
                 <br/>e.g. https://api.stormpath.com/v1/directories/AJufd3393XJDFqJ3E81230</td>
             </tr>
             <tr valign="top">
+                <th scope="row"><label for="sp_authenticate_via_stormpath">Enable Authentication via Stormpath?</label></th>
+				<td><input type="radio" name="sp_authenticate_via_stormpath" id="sp_authenticate_via_stormpath" <?php if(get_option('sp_authenticate_via_stormpath', 'false') === 'true') echo 'checked'; ?> value="true" />yes &nbsp;
+				<input type="radio" name="sp_authenticate_via_stormpath" id="sp_authenticate_via_stormpath" <?php if(get_option('sp_authenticate_via_stormpath', 'false') === 'false') echo 'checked'; ?> value="false" />no</td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><label for="sp_use_idsite_for_login">Use ID Site for Login?</label></th>
+				<td><input type="radio" name="sp_use_idsite_for_login" id="sp_use_idsite_for_login" <?php if(get_option('sp_use_idsite_for_login', 'false') === 'true') echo 'checked'; ?> value="true" />yes &nbsp;
+				<input type="radio" name="sp_use_idsite_for_login" id="sp_use_idsite_for_login" <?php if(get_option('sp_use_idsite_for_login', 'false') === 'false') echo 'checked'; ?> value="false" />no</td>
+            </tr>
+            <tr valign="top">
                 <th scope="row"><label for="sp_idsite_login_uri">ID Site Login URI</label></th>
                 <td><input type="text" style="width: 95%;" name="sp_idsite_login_uri" id="sp_idsite_login_uri" value="<?php echo get_option('sp_idsite_login_uri', ''); ?>" />
                 <br/>Should be a URI relative to the current WordPress installation pointing to the sp-login.php file.
                 <br/>e.g. http://www.mywordpress.com/wp/wp-content/plugins/sp-auth/sp-login.php</td>
+            </tr>
+            <tr valign="top">
+                <th scope="row"><label for="sp_use_idsite_for_logout">Use ID Site for Logout?</label></th>
+				<td><input type="radio" name="sp_use_idsite_for_logout" id="sp_use_idsite_for_logout" <?php if(get_option('sp_use_idsite_for_logout', 'false') === 'true') echo 'checked'; ?> value="true" />yes &nbsp;
+				<input type="radio" name="sp_use_idsite_for_logout" id="sp_use_idsite_for_logout" <?php if(get_option('sp_use_idsite_for_logout', 'false') === 'false') echo 'checked'; ?> value="false" />no</td>
             </tr>
             <tr valign="top">
                 <th scope="row"><label for="sp_idsite_logout_uri">ID Site Logout URI</label></th>
