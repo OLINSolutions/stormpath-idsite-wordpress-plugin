@@ -25,6 +25,7 @@ For now, only the Login and Logout flows are integrated.  Registration and Passw
 
 
 ### Changelog
+* 0.3 - 20160504 - Made sure even if activated, login/logout urls are not impacted until settings are configured
 * 0.2 - 20160503 - Fixed width of input boxes on settings tab
 * 0.1 - 20160502 - Still in development
 
