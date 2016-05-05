@@ -93,11 +93,11 @@ if(!class_exists('SP_Authenticator'))
 		 */
 		public function stormpathInitialized()
 		{
-			if (((!isset($this->spApiKeyFileLocation)) || ($this->spApiKeyFileLocation === '')) ||
-				((!isset($this->sp_directory_href)) || ($this->sp_directory_href === '')) ||
-				((!isset($this->sp_application_href)) || ($this->sp_application_href === '')) ||
-				((!isset($this->sp_idsite_login_uri)) || ($this->sp_idsite_login_uri === '')) ||
-				(((!isset($this->sp_idsite_logout_uri)) || $this->sp_idsite_logout_uri === '')))
+			if (empty($this->spApiKeyFileLocation) ||
+				empty($this->sp_directory_href) ||
+				empty($this->sp_application_href) ||
+				empty($this->sp_idsite_login_uri) ||
+				empty($this->sp_idsite_logout_uri))
 				return false;
 			return true;
 		}
