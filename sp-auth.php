@@ -66,9 +66,12 @@ if(!class_exists('SP_Auth')) {
 	        	Util::debug('msg', 'SP_Auth::__construct', 'Created SP_Authenticator instance');
 			}
 
-			// Register the authenticate filter
-			add_filter( 'authenticate', array(&$this, 'authenticate'), 10, 3 );
-
+			// Register the authenticate filter if Stormpath has been initialized
+			if ($this->spAuthenticator->stormpathInitialized())
+				add_filter( 'authenticate', array(&$this, 'authenticate'), 10, 3 );
+			else
+				Util::debug('msg', 'SP_Auth::__construct', 'Defering registration of authenticate filter until SP_Authenticator instance has been initialized');
+			
         	Util::debug('msg', 'SP_Auth::__construct', 'LEAVING');
         } // END public function __construct
     
