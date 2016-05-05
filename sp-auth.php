@@ -1,13 +1,13 @@
 <?php
 /**
  * @package sp-auth
- * @version 0.3
+ * @version 0.4
  */
 /**
 Plugin Name: SP Auth
 Plugin URI: https://github.com/OLINSolutions/stormpath-idsite-wordpress-plugin
 Description: Stormpath authorization plugin
-Version: 0.3
+Version: 0.4
 Author: Olinsolutions
 Author URI: http://olinsolutions.com
 License:     GPL2
