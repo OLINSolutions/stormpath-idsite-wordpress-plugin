@@ -180,7 +180,7 @@ if ($from === 'logout') {
 
 	// The redirect address is already setup
 	// Now , should we login right away now that the logout is complete?
-	if (get_option('sp_login_after_logout') === 'true')
+	if (get_option('sp_login_after_logout', 'false') === 'true')
 		// Setup and create Stormpath URI
 		$redirect_to = create_stormpath_uri( $spApplication, $redirect );
 	else

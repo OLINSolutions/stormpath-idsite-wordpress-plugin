@@ -74,28 +74,47 @@ if(!class_exists('SP_Authenticator'))
 		private function init_vars() 
 		{
 			// Pull the operational settings from the options store
-			$this->spApiKeyFileLocation = get_option('sp_apikey_file_location');
+			$this->spApiKeyFileLocation = get_option('sp_apikey_file_location', '');
 			Util::debug('pr', 'SP_Authenticator::apiKeyFileLocation', $this->spApiKeyFileLocation);
-			$this->spDirectoryHref = get_option('sp_directory_href');
+			$this->spDirectoryHref = get_option('sp_directory_href', '');
 			Util::debug('pr', 'SP_Authenticator::spDirectoryHref', $this->spDirectoryHref);
-			$this->spApplicationHref = get_option('sp_application_href');
+			$this->spApplicationHref = get_option('sp_application_href', '');
 			Util::debug('pr', 'SP_Authenticator::spApplicationHref', $this->spApplicationHref);
-			$this->spIDSiteLoginURI = get_option('sp_idsite_login_uri');
+			$this->spIDSiteLoginURI = get_option('sp_idsite_login_uri', '');
 			Util::debug('pr', 'SP_Authenticator::spIDSiteLoginURI', $this->spIDSiteLoginURI);
-			$this->spIDSiteLogoutURI = get_option('sp_idsite_logout_uri');
+			$this->spIDSiteLogoutURI = get_option('sp_idsite_logout_uri', '');
 			Util::debug('pr', 'SP_Authenticator::spIDSiteLogoutURI', $this->spIDSiteLogoutURI);
+			$this->spApplication = '';
+			$this->spDirectory = '';
 		}
 		
+		/**
+		 * Returns true if the settings have been properly configured and initialized
+		 */
+		public function stormpathInitialized()
+		{
+			if (($this->spApiKeyFileLocation === '') ||
+				($this->sp_directory_href === '') ||
+				($this->sp_application_href === '') ||
+				($this->sp_idsite_login_uri === '') ||
+				($this->sp_idsite_logout_uri === ''))
+				return false;
+			return true;
+		}
+
 		/**
 		* Configures and creates the Stormpath Application and Directory resource locators
 		*/
 		private function configure_client()
 		{
-			\Stormpath\Client::$apiKeyFileLocation = $this->spApiKeyFileLocation;
-			$this->spApplication = \Stormpath\Resource\Application::get($this->spApplicationHref);
-			$this->spDirectory = \Stormpath\Resource\Directory::get($this->spDirectoryHref);
+			// If the key file location has been set
+			if ($this->stormpathInitialized()) {
+				\Stormpath\Client::$apiKeyFileLocation = $this->spApiKeyFileLocation;
+				$this->spApplication = \Stormpath\Resource\Application::get($this->spApplicationHref);
+				$this->spDirectory = \Stormpath\Resource\Directory::get($this->spDirectoryHref);
+			}
 		}
-
+		
 		/**
 		* login_url Hook to cause the login to be processed by Stormpath via sp-login.php
 		*
@@ -117,8 +136,13 @@ if(!class_exists('SP_Authenticator'))
 		*/
 		private function hookLoginURLforIDSite()
 		{
-			add_filter( 'login_url', array(&$this, 'login_url_hook_get_id_site_login_uri'), 10, 3 );
-			Util::debug('msg', 'SP_Authenticator::hookLoginURLforIDSite', 'After add_filter');
+			//Make sure the required options have been properly initialized
+			if ($this->stormpathInitialized()) {
+				add_filter( 'login_url', array(&$this, 'login_url_hook_get_id_site_login_uri'), 10, 3 );
+				Util::debug('msg', 'SP_Authenticator::hookLoginURLforIDSite', 'After add_filter');
+			} else {
+				Util::debug('msg', 'SP_Authenticator::hookLoginURLforIDSite', 'Unable to add filter, settings not configured yet.');
+			}
 		}
 			
 		/**
@@ -142,8 +166,13 @@ if(!class_exists('SP_Authenticator'))
 		*/
 		private function hookLogoutUrlforIDSite()
 		{
-			add_filter( 'logout_url', array(&$this, 'logout_url_hook_get_id_site_logout_url'), 10, 2 );
-			Util::debug('msg', 'SP_Authenticator::hookLogoutUrlforIDSite', 'After add_filter');
+			//Make sure the required options have been properly initialized
+			if ($this->stormpathInitialized()) {
+				add_filter( 'logout_url', array(&$this, 'logout_url_hook_get_id_site_logout_url'), 10, 2 );
+				Util::debug('msg', 'SP_Authenticator::hookLogoutUrlforIDSite', 'After add_filter');
+			} else {
+				Util::debug('msg', 'SP_Authenticator::hookLogoutURLforIDSite', 'Unable to add filter, settings not configured yet.');
+			}
 		}
 
 		/**
@@ -200,11 +229,15 @@ if(!class_exists('SP_Authenticator'))
 		*/    
 		private function lookupAccount($username, $password)
 		{
-				// Lookup the account within Stormpath
-				$result = $this->spApplication->authenticate($username, $password);
-				$account = $result->account;
-				Util::debug('pr', 'account', $account);
-				return $account;
+			// If the settings have not been initialized, return a WP_Error object
+			if (!$this->stormpathInitialized())
+				return new WP_Error( 'denied', __("Stormpath Authenticator::ERROR: Stormpath plugin settings are not configured") );
+
+			// Lookup the account within Stormpath
+			$result = $this->spApplication->authenticate($username, $password);
+			$account = $result->account;
+			Util::debug('pr', 'account', $account);
+			return $account;
 		}
 		
 		/**
@@ -231,6 +264,8 @@ if(!class_exists('SP_Authenticator'))
 
 				// Lookup the account within Stormpath
 				$account = $this->lookupAccount($username, $password);
+				// If an error was returned, forward on to caller
+				if ($account instanceof WP_Error) return $account;
 				
 				// External user exists, try to load the user info from the WordPress user table
 				$user = Util::lookupWPUser($account);

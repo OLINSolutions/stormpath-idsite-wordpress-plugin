@@ -36,8 +36,6 @@ require_once( 'classes/vendor/autoload.php');
 Util::debug('msg', 'sp-logout',  'ENTERED');
 
 // Dereference original arguments
-// $logout_url = isset($_REQUEST['logout_url']) ? $_REQUEST['logout_url'] : '';
-// Util::debug('pr','sp-logout::logout_url', $logout_url);
 $redirect = isset($_REQUEST['redirect']) ? $_REQUEST['redirect'] : '';
 Util::debug('pr','sp-logout::redirect', $redirect);
 
