@@ -39,14 +39,14 @@ if(!class_exists('SP_Authenticator'))
 		private $spApiKeyFileLocation;
 		 
 		/**
-		* @var spDirectoryHref - Contains the href pointing to the required Directory resource in Stormpath
-		*/
-		private $spDirectoryHref;
-
-		/**
 		* @var spApplicationHref - Contains the href pointing to the required Application resource in Stormpath
 		*/
 		private $spApplicationHref;
+
+		/**
+		* @var spDirectoryHref - Contains the href pointing to the required Directory resource in Stormpath
+		*/
+		private $spDirectoryHref;
 
 		/**
 		* @var spApplication - The required Application resource in Stormpath
@@ -76,10 +76,10 @@ if(!class_exists('SP_Authenticator'))
 			// Pull the operational settings from the options store
 			$this->spApiKeyFileLocation = get_option('sp_apikey_file_location', '');
 			Util::debug('pr', 'SP_Authenticator::apiKeyFileLocation', $this->spApiKeyFileLocation);
-			$this->spDirectoryHref = get_option('sp_directory_href', '');
-			Util::debug('pr', 'SP_Authenticator::spDirectoryHref', $this->spDirectoryHref);
 			$this->spApplicationHref = get_option('sp_application_href', '');
 			Util::debug('pr', 'SP_Authenticator::spApplicationHref', $this->spApplicationHref);
+			$this->spDirectoryHref = get_option('sp_directory_href', '');
+			Util::debug('pr', 'SP_Authenticator::spDirectoryHref', $this->spDirectoryHref);
 			$this->spIDSiteLoginURI = get_option('sp_idsite_login_uri', '');
 			Util::debug('pr', 'SP_Authenticator::spIDSiteLoginURI', $this->spIDSiteLoginURI);
 			$this->spIDSiteLogoutURI = get_option('sp_idsite_logout_uri', '');
@@ -93,11 +93,11 @@ if(!class_exists('SP_Authenticator'))
 		 */
 		public function stormpathInitialized()
 		{
-			if (($this->spApiKeyFileLocation === '') ||
-				($this->sp_directory_href === '') ||
-				($this->sp_application_href === '') ||
-				($this->sp_idsite_login_uri === '') ||
-				($this->sp_idsite_logout_uri === ''))
+			if (((!isset($this->spApiKeyFileLocation)) || ($this->spApiKeyFileLocation === '')) ||
+				((!isset($this->sp_directory_href)) || ($this->sp_directory_href === '')) ||
+				((!isset($this->sp_application_href)) || ($this->sp_application_href === '')) ||
+				((!isset($this->sp_idsite_login_uri)) || ($this->sp_idsite_login_uri === '')) ||
+				(((!isset($this->sp_idsite_logout_uri)) || $this->sp_idsite_logout_uri === '')))
 				return false;
 			return true;
 		}
