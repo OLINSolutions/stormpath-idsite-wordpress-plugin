@@ -137,12 +137,15 @@ if(!class_exists('SP_Authenticator'))
 		private function hookLoginURLforIDSite()
 		{
 			//Make sure the required options have been properly initialized
-			if ($this->stormpathInitialized()) {
-				add_filter( 'login_url', array(&$this, 'login_url_hook_get_id_site_login_uri'), 10, 3 );
-				Util::debug('msg', 'SP_Authenticator::hookLoginURLforIDSite', 'After add_filter');
-			} else {
-				Util::debug('msg', 'SP_Authenticator::hookLoginURLforIDSite', 'Unable to add filter, settings not configured yet.');
-			}
+			if (get_option('sp_use_idsite_for_login', 'false') === 'true') {					
+				if ($this->stormpathInitialized()) {
+					add_filter( 'login_url', array(&$this, 'login_url_hook_get_id_site_login_uri'), 10, 3 );
+					Util::debug('msg', 'SP_Authenticator::hookLoginURLforIDSite', 'After add_filter');
+				} else {
+					Util::debug('msg', 'SP_Authenticator::hookLoginURLforIDSite', 'Unable to add filter, settings not configured yet.');
+				}
+			} else
+				Util::debug('msg', 'SP_Authenticator::hookLoginURLforIDSite', 'Using ID Site for Login processing is disabled.');
 		}
 			
 		/**
@@ -167,14 +170,16 @@ if(!class_exists('SP_Authenticator'))
 		private function hookLogoutUrlforIDSite()
 		{
 			//Make sure the required options have been properly initialized
-			if ($this->stormpathInitialized()) {
-				add_filter( 'logout_url', array(&$this, 'logout_url_hook_get_id_site_logout_url'), 10, 2 );
-				Util::debug('msg', 'SP_Authenticator::hookLogoutUrlforIDSite', 'After add_filter');
-			} else {
-				Util::debug('msg', 'SP_Authenticator::hookLogoutURLforIDSite', 'Unable to add filter, settings not configured yet.');
-			}
-		}
-
+			if (get_option('sp_use_idsite_for_logout', 'false') === 'true') {
+				if ($this->stormpathInitialized()) {
+						add_filter( 'logout_url', array(&$this, 'logout_url_hook_get_id_site_logout_url'), 10, 2 );
+						Util::debug('msg', 'SP_Authenticator::hookLogoutUrlforIDSite', 'After add_filter');
+				} else {
+					Util::debug('msg', 'SP_Authenticator::hookLogoutURLforIDSite', 'Unable to add filter, settings not configured yet.');
+				}
+			} else
+				Util::debug('msg', 'SP_Authenticator::hookLogoutURLforIDSite', 'Using ID Site for Logout processing is disabled.');
+		}				
 		/**
 		* allowed_redirect_hosts Hook so stormpath.com URLs can be called without issue
 		*
