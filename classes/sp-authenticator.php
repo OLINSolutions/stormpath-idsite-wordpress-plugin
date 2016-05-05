@@ -94,10 +94,10 @@ if(!class_exists('SP_Authenticator'))
 		public function stormpathInitialized()
 		{
 			if (empty(($this->spApiKeyFileLocation)) ||
-				empty(($this->sp_directory_href)) ||
-				empty(($this->sp_application_href)) ||
-				empty(($this->sp_idsite_login_uri)) ||
-				empty(($this->sp_idsite_logout_uri)))
+				empty(($this->spApplicationHref)) ||
+				empty(($this->spDirectoryHref)) ||
+				empty(($this->spIDSiteLoginURI)) ||
+				empty(($this->spIDSiteLogoutURI)))
 				return false;
 			return true;
 		}
